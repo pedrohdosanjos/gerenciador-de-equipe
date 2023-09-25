@@ -1,10 +1,19 @@
-class Funcionario():
-  def __init__(self, nome, ano_nasc, cargo, salario):
-    self.nome = nome
-    self.ano_nasc = ano_nasc
-    self.cargo = cargo
-    self.salario = salario
+import datetime as dt
 
-  def promover(self, salario):
-    self.salario = salario
+class Funcionario():
+  def __init__(self, id, name, year, role, wage):
+    self.id = id
+    self.name = name
+    self.year = year
+    self.role = role
+    self.wage = wage
+
+  def promote(self, wage):
+    self.wage = wage
+
+  def begin(self):
+    self.begin = dt.datetime.now()
+
+  def end(self):
+    self.end = dt.datetime.now()
       

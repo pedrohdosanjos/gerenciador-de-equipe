@@ -1,6 +1,7 @@
 import tkinter as tk
 class Janela():
   def __init__(self, name, sizex, sizey):
+    self.window = tk.Tk(useTk=False)
     self.name = name
     self.sizex = sizex
     self.sizey = sizey
