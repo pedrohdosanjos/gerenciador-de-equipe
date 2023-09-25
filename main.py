@@ -67,7 +67,6 @@ def open_menu2():
   #aqui será registrado o horário de inicio de trabalho do funcionario
   def begin_work():
     emplist[int(id_entry.get())].begin()
-    print(emplist[int(id_entry.get())].name)
     id_entry.delete(0, 4)
 
   #aqui será registrado o horário de fim de trabalho do funcionario
