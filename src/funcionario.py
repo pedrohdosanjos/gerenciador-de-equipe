@@ -40,4 +40,15 @@ class Funcionario():
       return [self.id, self.name, self.year, self.role, self.wage, hours]
     else:
       return [self.id, self.name, self.year, self.role, self.wage]
+    
+  def getAttributesDict(self, all=False):
+    if all:
+      hours = []
+      for pair in self.hours:
+        if pair[1] != -1:
+          hours.append([pair[0].getAttributes(), pair[1].getAttributes()])
+      
+      return {'ID':self.id, 'Name':self.name, 'Birth Year':self.year, 'Role':self.role, 'Wage':self.wage, 'Working hours':hours}
+    else:
+      return {'ID':self.id, 'Name':self.name, 'Birth Year':self.year, 'Role':self.role, 'Wage':self.wage}
       

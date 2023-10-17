@@ -28,7 +28,7 @@ class Janela:
         self.window.title(self.name)
 
         self.window.minsize(self.sizex, self.sizey)
-        self.window.maxsize(self.sizex, self.sizey)
+        #self.window.maxsize(self.sizex, self.sizey)
 
     def update(self):
         self.window.mainloop()

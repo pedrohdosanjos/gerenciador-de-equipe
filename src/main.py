@@ -4,7 +4,7 @@ from funcionario import *
 from func import *
 from tkinter import messagebox
 
-login = Janela("Main", 350, 250)
+login = Janela("Gerenciador de Equipe", 350, 250)
 login.createWindow(0)
 
 boss_menu = Janela("Menu de chefe", 350, 350)
@@ -67,19 +67,25 @@ def open_menu1():
             for j in range(total_columns):
                 e = tk.Entry(table_window, width=20, fg="black", font=("Arial", 16))
                 e.grid(row=i, column=j)
-                e.insert(tk.END, lista.get(list(lista.keys())[i]).getAttributes()[j])
+                e.insert(tk.END, lista.get(list(lista.keys())[i])[0].getAttributes()[j])
 
     # ação do botão de cadastro de funcionário
     def new_empl(lista):
         # Testa se os valores inseridos são válidos
-        if (
-            id_entry.get() == "" or is_of_type(id_entry.get(), int) or
-            nm_entry.get() == "" or
-            yr_entry.get() == "" or is_of_type(yr_entry.get(), int) or
-            rl_entry.get() == "" or
-            wg_entry.get() == "" or is_of_type(wg_entry.get(), float)
-           ):
-            messagebox.showerror("Erro", "Erro: Um ou mais valores inseridos não são válidos...")
+        if (id_entry.get() == "" or is_of_type(id_entry.get(), int)) == False:
+            messagebox.showerror("Erro", "Erro: ID inválido...")
+            return
+        elif (nm_entry.get() == ""):
+            messagebox.showerror("Erro", "Erro: Nome inválido...")
+            return
+        elif (yr_entry.get() == "" or is_of_type(yr_entry.get(), int)) == False:
+            messagebox.showerror("Erro", "Erro: Ano inválido...")
+            return
+        elif (rl_entry.get() == ""):
+            messagebox.showerror("Erro", "Erro: Função inválida...")
+            return
+        elif (wg_entry.get() == "" or is_of_type(wg_entry.get(), float)) == False:
+            messagebox.showerror("Erro", "Erro: Salário inválido...")
             return
 
         # insere o novo funcionário na lista de funcionários
@@ -110,7 +116,7 @@ def open_menu1():
         # Conferindo se o ID é válido                
         if emplID_entry.get() != "":            
             ID = int(emplID_entry.get())
-        else:            
+        else: 
             messagebox.showerror("Erro", "Erro: Digitar um ID válido")
             return
                    
@@ -119,18 +125,26 @@ def open_menu1():
             messagebox.showerror("Erro", "Erro: ID não consta no Banco de Dados")
             return
         attr = el.getAttributes(all=True)
+        attrd = el.getAttributesDict(all=True)
         table_window = tk.Tk()
         table_window.title(f"Informações sobre \'{attr[1]}\'")
         total_columns = len(attr)-1  # Número de atributos (úteis) de um funcionário
         j = 0
         for i in range(total_columns):
-            e = tk.Entry(table_window, width=20, fg="black", font=("Arial", 16))
+            e = tk.Entry(table_window, width=13, fg="black", font=("Arial", 16), justify="right")
             e.grid(row=j, column=0)
+            e.insert(tk.END, list(attrd.keys())[list(attrd.values()).index(attr[j])])
+            e = tk.Entry(table_window, width=25, fg="black", font=("Arial", 16), justify="center")
+            e.grid(row=j, column=1)
             e.insert(tk.END, attr[j])
             j += 1
-        e = tk.Entry(table_window, width=20, fg="black", font=("Arial", 16))
-        e.grid(row=j, column=0)
-        e.insert(tk.END, attr[j])
+        for i in range(len(attr[j])):
+            e = tk.Entry(table_window, width=13, fg="black", font=("Arial", 16), justify="right")
+            e.grid(row=j+i, column=0)
+            e.insert(tk.END, list(attrd.keys())[list(attrd.values()).index(attr[j])])
+            e = tk.Entry(table_window, width=25, fg="black", font=("Arial", 16), justify="center")
+            e.grid(row=j+i, column=1)
+            e.insert(tk.END, formatDict(attr[j][i])+"\n")
 
     boss_menu.createButton("Pesquisar funcionário", inspect_empl, tabela_funcionarios, X-padding, Y+i*line_height, relative=True, anch="ne")
     boss_menu.createButton("Tabela de Funcionários", func_table, tabela_funcionarios, X+padding, Y+i*line_height, relative=True, anch="nw")
@@ -155,16 +169,19 @@ def open_menu2():
     def begin_work(lista):
         # Conferindo se o ID é válido
         if id_entry.get() != "":
-            lista.get(int(id_entry.get()))[0].begin()
-            id_entry.delete(0, 4)
+            state = lista.get(int(id_entry.get()))[0].begin()
+            if not state:
+                messagebox.showerror("Erro", "Erro: Não foi possíveo cadastrar horário")
+
         else:
             messagebox.showerror("Erro", "Erro: Digitar um ID válido")
 
     # Aqui será registrado o horário de fim de trabalho do funcionario
     def end_work(lista):
         if id_entry.get() != "":
-            lista.get(int(id_entry.get()))[0].end()
-            id_entry.delete(0, 4)
+            state = lista.get(int(id_entry.get()))[0].end()
+            if not state:
+                messagebox.showerror("Erro", "Erro: Não foi possíveo cadastrar horário")
         else:
             messagebox.showerror("Erro", "Erro: Digitar um ID válido")
 
