@@ -1,16 +1,13 @@
+from database import *
 from janela import *
 from funcionario import *
 from tkinter import messagebox
 
-login = Janela("Login", 200, 200)
+login = Janela("Login", 350, 250)
 login.createWindow(0)
 
 boss_menu = Janela("Menu de chefe", 350, 250)
-empl_menu = Janela("Menu de funcionário", 250, 70)
-
-# Inicializando a Lista
-emplist = [("1", "Pedro", "2003", "Estagiario", "2000")]
-
+empl_menu = Janela("Menu de funcionário", 350, 250)
 
 def open_menu1():
     boss_menu.createWindow(1)
@@ -58,72 +55,77 @@ def open_menu1():
     wg_entry = tk.Entry(boss_menu.window, width=20)
     wg_entry.place(relx=X, rely=Y+i*line_height, anchor="nw")
     i+=2
-    def func_table():
+
+    def func_table(lista):
         table_window = tk.Tk()
         table_window.title("Tabela de Funcionários")
-        total_rows = len(emplist)
-        total_columns = 5  # Número de atributos de um funcionário
+        total_rows = len(lista)
+        total_columns = 5  # Número de atributos (úteis) de um funcionário
 
         for i in range(total_rows):
             for j in range(total_columns):
                 e = tk.Entry(table_window, width=20, fg="black", font=("Arial", 16))
                 e.grid(row=i, column=j)
-                e.insert(tk.END, emplist[i][j])
+                e.insert(tk.END, lista.get(list(lista.keys())[i]).getAttributes()[j])
 
-        print(len(emplist))
+        print(len(lista))
 
     # ação do botão de cadastro de funcionário
-    def new_empl():
+    def new_empl(lista):
         # insere o novo funcionário na lista de funcionários
-        ID = id_entry.get()
+        ID = int(id_entry.get())
         Nome = nm_entry.get()
-        Ano = yr_entry.get()
+        Ano = int(yr_entry.get())
         Cargo = rl_entry.get()
-        Salario = wg_entry.get()
+        Salario = float(wg_entry.get())
 
-        Funcionario(ID, Nome, Ano, Cargo, Salario)
+        func = Funcionario(ID, Nome, Ano, Cargo, Salario)
 
-        tmp_list = (ID, Nome, Ano, Cargo, Salario)
+        lista.append(func)
 
-        emplist.append(tmp_list)
-
-    boss_menu.createButton("Cadastrar novo funcionário", new_empl, X, Y+i*line_height, relative=True, anch="center")
+    boss_menu.createButton("Cadastrar novo funcionário", new_empl, tabela_funcionarios, X, Y+i*line_height, relative=True, anch="center")
     i+=1.5
-    boss_menu.createButton("Tabela de Funcionários", func_table, X, Y+i*line_height, relative=True, anch="center")
+    boss_menu.createButton("Tabela de Funcionários", func_table, tabela_funcionarios, X, Y+i*line_height, relative=True, anch="center")
     i+=2
 
 def open_menu2():
     empl_menu.createWindow(2)
 
-    label_id = tk.Label(empl_menu.window, text="Identificação do funcionário")
-    label_id.grid(column=0, row=0)
 
-    id_entry = tk.Entry(empl_menu.window, width=10)
-    id_entry.grid(column=1, row=0)
+    padding=0.05
+    X,Y = 0.5, 0.3
+    line_height = 0.1
+    i = 0
+    label_id = tk.Label(empl_menu.window, text="Identificação")
+    label_id.place(relx=X-padding, rely=Y+i*line_height, anchor="ne")   
 
-    # aqui será registrado o horário de inicio de trabalho do funcionario
-    def begin_work():
+    id_entry = tk.Entry(empl_menu.window, width=20)
+    id_entry.place(relx=X, rely=Y+i*line_height, anchor="nw")
+    i+=2
+
+    # Aqui será registrado o horário de inicio de trabalho do funcionario
+    def begin_work(lista):
         # Conferindo se o ID é válido
         if id_entry.get() != "":
-            emplist[int(id_entry.get())].begin()
+            lista.get(int(id_entry.get())).begin()
             id_entry.delete(0, 4)
         else:
             messagebox.showerror("Erro", "Erro: Digitar um ID válido")
 
-    # aqui será registrado o horário de fim de trabalho do funcionario
-    def end_work():
+    # Aqui será registrado o horário de fim de trabalho do funcionario
+    def end_work(lista):
         if id_entry.get() != "":
-            emplist[int(id_entry.get())].end()
+            lista.get(int(id_entry.get())).end()
             id_entry.delete(0, 4)
         else:
             messagebox.showerror("Erro", "Erro: Digitar um ID válido")
 
-    empl_menu.createButton("Início do expediente", begin_work, 5, 40)
-    empl_menu.createButton("Fim do expediente", end_work, 135, 40)
+    empl_menu.createButton("Início do expediente", begin_work, tabela_funcionarios, X-padding, Y+i*line_height, relative=True, anch="ne")
+    empl_menu.createButton("Fim do expediente", end_work, tabela_funcionarios, X+padding, Y+i*line_height, relative=True, anch="nw")
 
 
-login.createButton("Chefe", open_menu1, 80, 60)
-login.createButton("Funcionário", open_menu2, 65, 105)
+login.createButton("Chefe", open_menu1, placex=0.5, placey=0.35, relative=True, anch="center")
+login.createButton("Funcionário", open_menu2, placex=0.5, placey=0.65, relative=True, anch="center")
 
 login.update()
 boss_menu.update()
