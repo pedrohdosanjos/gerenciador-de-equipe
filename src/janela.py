@@ -2,12 +2,21 @@ import tkinter as tk
 
 
 class Janela:
+    # Container for all instances of the class
+    _instances = []
+
+    @classmethod
+    def getInstances(cls):  # Returns the conrtainer to all instances of the class
+        return cls._instances
+    
     def __init__(self, name, sizex, sizey):
         self.window = tk.Tk(useTk=False)
         self.name = name
         self.sizex = sizex
         self.sizey = sizey
         self.buttons = []
+
+        Janela._instances.append(self)
 
     def createWindow(self, inst):
         if inst == 0:

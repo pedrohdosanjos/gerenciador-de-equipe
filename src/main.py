@@ -1,6 +1,7 @@
 from database import *
 from janela import *
 from funcionario import *
+from func import *
 from tkinter import messagebox
 
 login = Janela("Main", 350, 250)
@@ -68,10 +69,19 @@ def open_menu1():
                 e.grid(row=i, column=j)
                 e.insert(tk.END, lista.get(list(lista.keys())[i]).getAttributes()[j])
 
-        print(len(lista))
-
     # ação do botão de cadastro de funcionário
     def new_empl(lista):
+        # Testa se os valores inseridos são válidos
+        if (
+            id_entry.get() == "" or is_of_type(id_entry.get(), int) or
+            nm_entry.get() == "" or
+            yr_entry.get() == "" or is_of_type(yr_entry.get(), int) or
+            rl_entry.get() == "" or
+            wg_entry.get() == "" or is_of_type(wg_entry.get(), float)
+           ):
+            messagebox.showerror("Erro", "Erro: Um ou mais valores inseridos não são válidos...")
+            return
+
         # insere o novo funcionário na lista de funcionários
         ID = int(id_entry.get())
         Nome = nm_entry.get()
@@ -97,8 +107,30 @@ def open_menu1():
     
     # Lista todas as informações sobre um funcionário específico
     def inspect_empl(lista):
-        ID = int(emplID_entry.get())
-        print(lista.get(ID).getAttributes(all=True))
+        # Conferindo se o ID é válido                
+        if emplID_entry.get() != "":            
+            ID = int(emplID_entry.get())
+        else:            
+            messagebox.showerror("Erro", "Erro: Digitar um ID válido")
+            return
+                   
+        el, state = lista.get(ID)
+        if state == False:
+            messagebox.showerror("Erro", "Erro: ID não consta no Banco de Dados")
+            return
+        attr = el.getAttributes(all=True)
+        table_window = tk.Tk()
+        table_window.title(f"Informações sobre \'{attr[1]}\'")
+        total_columns = len(attr)-1  # Número de atributos (úteis) de um funcionário
+        j = 0
+        for i in range(total_columns):
+            e = tk.Entry(table_window, width=20, fg="black", font=("Arial", 16))
+            e.grid(row=j, column=0)
+            e.insert(tk.END, attr[j])
+            j += 1
+        e = tk.Entry(table_window, width=20, fg="black", font=("Arial", 16))
+        e.grid(row=j, column=0)
+        e.insert(tk.END, attr[j])
 
     boss_menu.createButton("Pesquisar funcionário", inspect_empl, tabela_funcionarios, X-padding, Y+i*line_height, relative=True, anch="ne")
     boss_menu.createButton("Tabela de Funcionários", func_table, tabela_funcionarios, X+padding, Y+i*line_height, relative=True, anch="nw")
@@ -123,7 +155,7 @@ def open_menu2():
     def begin_work(lista):
         # Conferindo se o ID é válido
         if id_entry.get() != "":
-            lista.get(int(id_entry.get())).begin()
+            lista.get(int(id_entry.get()))[0].begin()
             id_entry.delete(0, 4)
         else:
             messagebox.showerror("Erro", "Erro: Digitar um ID válido")
@@ -131,7 +163,7 @@ def open_menu2():
     # Aqui será registrado o horário de fim de trabalho do funcionario
     def end_work(lista):
         if id_entry.get() != "":
-            lista.get(int(id_entry.get())).end()
+            lista.get(int(id_entry.get()))[0].end()
             id_entry.delete(0, 4)
         else:
             messagebox.showerror("Erro", "Erro: Digitar um ID válido")
@@ -143,6 +175,6 @@ def open_menu2():
 login.createButton("Chefe", open_menu1, placex=0.5, placey=0.35, relative=True, anch="center")
 login.createButton("Funcionário", open_menu2, placex=0.5, placey=0.65, relative=True, anch="center")
 
-login.update()
-boss_menu.update()
-empl_menu.update()
+# Updates all "Janela" class's instances
+for inst in Janela.getInstances():
+    inst.update()

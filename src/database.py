@@ -9,7 +9,10 @@ class Database:
         self.elements[func.id] = func
     #
     def get(self, id):
-        return self.elements[id]
+        if id not in self.elements.keys():
+            return None, False
+        else:
+            return self.elements[id], True
     #
     def __len__(self):
         return len(self.elements)
