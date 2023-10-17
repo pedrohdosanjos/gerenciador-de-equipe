@@ -6,3 +6,11 @@ class Data:
             self.data = dt.datetime(ano, mes, dia, hora, min, seg)
         else:
             self.data = dt.datetime.now()
+    
+    def getAttributes(self):
+        return {'ano':self.data.year,
+                'mes':self.data.month,
+                'dia':self.data.day,
+                'hora':self.data.hour,
+                'min':self.data.minute,
+                'seg':self.data.second}

@@ -3,10 +3,10 @@ from janela import *
 from funcionario import *
 from tkinter import messagebox
 
-login = Janela("Login", 350, 250)
+login = Janela("Main", 350, 250)
 login.createWindow(0)
 
-boss_menu = Janela("Menu de chefe", 350, 250)
+boss_menu = Janela("Menu de chefe", 350, 350)
 empl_menu = Janela("Menu de funcionário", 350, 250)
 
 def open_menu1():
@@ -14,7 +14,7 @@ def open_menu1():
 
     padding=0.05
     X,Y = 0.5, 0.05
-    line_height = 0.1
+    line_height = 0.07
     i = 0
     # Valor de entrada
     label_id = tk.Label(boss_menu.window, text="Identificação")
@@ -82,10 +82,26 @@ def open_menu1():
         func = Funcionario(ID, Nome, Ano, Cargo, Salario)
 
         lista.append(func)
+    
 
     boss_menu.createButton("Cadastrar novo funcionário", new_empl, tabela_funcionarios, X, Y+i*line_height, relative=True, anch="center")
-    i+=1.5
-    boss_menu.createButton("Tabela de Funcionários", func_table, tabela_funcionarios, X, Y+i*line_height, relative=True, anch="center")
+    i+=2
+
+    # Valor de entrada
+    label_emplID = tk.Label(boss_menu.window, text="ID à Pesq.")
+    label_emplID.place(relx=X-padding, rely=Y+i*line_height, anchor="ne")
+
+    emplID_entry = tk.Entry(boss_menu.window, width=20)
+    emplID_entry.place(relx=X, rely=Y+i*line_height, anchor="nw")
+    i+=2
+    
+    # Lista todas as informações sobre um funcionário específico
+    def inspect_empl(lista):
+        ID = int(emplID_entry.get())
+        print(lista.get(ID).getAttributes(all=True))
+
+    boss_menu.createButton("Pesquisar funcionário", inspect_empl, tabela_funcionarios, X-padding, Y+i*line_height, relative=True, anch="ne")
+    boss_menu.createButton("Tabela de Funcionários", func_table, tabela_funcionarios, X+padding, Y+i*line_height, relative=True, anch="nw")
     i+=2
 
 def open_menu2():

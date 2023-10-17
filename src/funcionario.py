@@ -9,16 +9,19 @@ class Funcionario():
     self.wage = float(wage)
     self.hours = []
 
-  def promote(self, wage):
+  def promote(self, role, wage):
+    self.role = role
     self.wage = float(wage)
 
   def begin(self):  # returns True if validated, else False
-    if len(self.hours) > 0 and self.hours[-1][1]!= -1:
+    if len(self.hours) == 0:
+      self.hours.append([Data(), -1])
+      return True
+    elif self.hours[-1][1]!= -1:
       self.hours.append([Data(), -1])
       return True
     else:
       return False
-
 
   def end(self):  # returns True if validated, else False
     if len(self.hours) > 0 and self.hours[-1][1] == -1:
@@ -27,6 +30,14 @@ class Funcionario():
     else:
       return False
 
-  def getAttributes(self):
-    return [self.id, self.name, self.year, self.role, self.wage]
+  def getAttributes(self, all=False):
+    if all:
+      hours = []
+      for pair in self.hours:
+        if pair[1] != -1:
+          hours.append([pair[0].getAttributes(), pair[1].getAttributes()])
+      
+      return [self.id, self.name, self.year, self.role, self.wage, hours]
+    else:
+      return [self.id, self.name, self.year, self.role, self.wage]
       
