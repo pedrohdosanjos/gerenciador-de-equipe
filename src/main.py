@@ -148,6 +148,25 @@ def open_menu1():
 
     boss_menu.createButton("Pesquisar funcionário", inspect_empl, tabela_funcionarios, X-padding, Y+i*line_height, relative=True, anch="ne")
     boss_menu.createButton("Tabela de Funcionários", func_table, tabela_funcionarios, X+padding, Y+i*line_height, relative=True, anch="nw")
+    i+=1.1
+
+    def fire_empl(lista):
+        # Conferindo se o ID é válido                
+        if emplID_entry.get() != "":            
+            ID = int(emplID_entry.get())
+        else: 
+            messagebox.showerror("Erro", "Erro: Digitar um ID válido")
+            return
+                   
+        el, state = lista.get(ID)
+        if state == False:
+            messagebox.showerror("Erro", "Erro: ID não consta no Banco de Dados")
+            return
+        attr = el.getAttributes(all=True)
+        
+        messagebox.askokcancel(title="Confirmar", message=f"Confirmar demissão de {attr[1]}")
+
+    boss_menu.createButton("Demitir funcionário", fire_empl, tabela_funcionarios, X-padding-0.015, Y+i*line_height, relative=True, anch="ne", color='red')
     i+=2
 
 def open_menu2():

@@ -33,11 +33,11 @@ class Janela:
     def update(self):
         self.window.mainloop()
 
-    def createButton(self, name, action, args=None, placex=0, placey=0, relative=False, anch="nw"):
+    def createButton(self, name, action, args=None, placex=0, placey=0, relative=False, anch="nw", color="white"):
         if args != None:
-            btn = tk.Button(self.window, text=name, command=lambda: action(args))
+            btn = tk.Button(self.window, text=name, command=lambda: action(args), bg=color)
         else:
-            btn = tk.Button(self.window, text=name, command=action)
+            btn = tk.Button(self.window, text=name, command=action, bg=color)
         if not relative:
             btn.place(x=placex, y=placey)
         else:
