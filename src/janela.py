@@ -24,7 +24,11 @@ class Janela:
     def update(self):
         self.window.mainloop()
 
-    def createButton(self, name, action, placex, placey):
-        self.buttons.append(
-            tk.Button(self.window, text=name, command=action).place(x=placex, y=placey)
-        )
+    def createButton(self, name, action, placex, placey, relative=False, anch="nw"):
+        btn = tk.Button(self.window, text=name, command=action)
+        if not relative:
+            btn.place(x=placex, y=placey)
+        else:
+            btn.place(relx=placex, rely=placey, anchor=anch)
+        self.buttons.append(btn)
+        return btn

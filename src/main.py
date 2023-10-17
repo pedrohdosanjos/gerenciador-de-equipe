@@ -15,41 +15,49 @@ emplist = [("1", "Pedro", "2003", "Estagiario", "2000")]
 def open_menu1():
     boss_menu.createWindow(1)
 
+    padding=0.05
+    X,Y = 0.5, 0.05
+    line_height = 0.1
+    i = 0
     # Valor de entrada
     label_id = tk.Label(boss_menu.window, text="Identificação")
-    label_id.grid(column=0, row=0)
+    label_id.place(relx=X-padding, rely=Y+i*line_height, anchor="ne")
 
     id_entry = tk.Entry(boss_menu.window, width=20)
-    id_entry.grid(column=1, row=0)
-
+    id_entry.place(relx=X, rely=Y+i*line_height, anchor="nw")
+    i+=1
+    
     # Valor de entrada
     label_nm = tk.Label(boss_menu.window, text="Nome")
-    label_nm.grid(column=0, row=1)
+    label_nm.place(relx=X-padding, rely=Y+i*line_height, anchor="ne")
 
     nm_entry = tk.Entry(boss_menu.window, width=20)
-    nm_entry.grid(column=1, row=1)
+    nm_entry.place(relx=X, rely=Y+i*line_height, anchor="nw")
+    i+=1
 
     # Valor de entrada
     label_yr = tk.Label(boss_menu.window, text="Ano de nascimento")
-    label_yr.grid(column=0, row=2)
+    label_yr.place(relx=X-padding, rely=Y+i*line_height, anchor="ne")
 
     yr_entry = tk.Entry(boss_menu.window, width=20)
-    yr_entry.grid(column=1, row=2)
+    yr_entry.place(relx=X, rely=Y+i*line_height, anchor="nw")
+    i+=1
 
     # Valor de entrada
     label_rl = tk.Label(boss_menu.window, text="Cargo")
-    label_rl.grid(column=0, row=3)
+    label_rl.place(relx=X-padding, rely=Y+i*line_height, anchor="ne")
 
     rl_entry = tk.Entry(boss_menu.window, width=20)
-    rl_entry.grid(column=1, row=3)
+    rl_entry.place(relx=X, rely=Y+i*line_height, anchor="nw")
+    i+=1
 
     # Valor de entrada
     label_wg = tk.Label(boss_menu.window, text="Salário")
-    label_wg.grid(column=0, row=4)
+    label_wg.place(relx=X-padding, rely=Y+i*line_height, anchor="ne")
 
     wg_entry = tk.Entry(boss_menu.window, width=20)
-    wg_entry.grid(column=1, row=4)
-
+    wg_entry.place(relx=X, rely=Y+i*line_height, anchor="nw")
+    i+=2
     def func_table():
         table_window = tk.Tk()
         table_window.title("Tabela de Funcionários")
@@ -79,9 +87,10 @@ def open_menu1():
 
         emplist.append(tmp_list)
 
-    boss_menu.createButton("Cadastrar novo funcionário", new_empl, 40, 110)
-    boss_menu.createButton("Tabela de Funcionários", func_table, 40, 140)
-
+    boss_menu.createButton("Cadastrar novo funcionário", new_empl, X, Y+i*line_height, relative=True, anch="center")
+    i+=1.5
+    boss_menu.createButton("Tabela de Funcionários", func_table, X, Y+i*line_height, relative=True, anch="center")
+    i+=2
 
 def open_menu2():
     empl_menu.createWindow(2)
