@@ -74,7 +74,3 @@ class Database:
 
 # Inicializando a Lista de funcionarios
 tabela_funcionarios = Database()
-
-# pedro = Funcionario(1, "Pedro", 2003, "Estagiario", 2000)
-
-# tabela_funcionarios.append(pedro)
