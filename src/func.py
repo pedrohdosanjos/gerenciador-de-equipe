@@ -15,10 +15,20 @@ def formatDict(period):
     for key in key_list:
         if d0[key] != d1[key]:
             start = key_list.index(key)
+            break
     
     out = "-".join([str(d0[i]) for i in key_list[:start]]) + "-"
     
     out += "(" + ".".join([str(d0[i]) for i in key_list[start:]])
-    out += " -- " + ".".join([str(d1[i]) for i in key_list[start:]]) + ")"
+    out += "--" + ".".join([str(d1[i]) for i in key_list[start:]]) + ")"
 
     return out
+
+def extractInfo(func, spacer=","):
+    attributes = [str(i) for i in list(func.__dict__.values())[:-1]]
+    attrStr = spacer.join(attributes)
+    hours = []
+    for i in range(len(list(func.__dict__.values())[-1])):
+        hours.append(formatDict([list(func.__dict__.values())[-1][i][0].getAttributes(), list(func.__dict__.values())[-1][i][1].getAttributes()]))
+    hoursStr = spacer.join(hours)
+    return attrStr, hoursStr

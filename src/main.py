@@ -172,7 +172,6 @@ def open_menu1():
 def open_menu2():
     empl_menu.createWindow(2)
 
-
     padding=0.05
     X,Y = 0.5, 0.3
     line_height = 0.1
@@ -187,7 +186,7 @@ def open_menu2():
     # Aqui será registrado o horário de inicio de trabalho do funcionario
     def begin_work(lista):
         # Conferindo se o ID é válido
-        if id_entry.get() != "":
+        if id_entry.get() != "" and int(id_entry.get()) in lista.keys():
             state = lista.get(int(id_entry.get()))[0].begin()
             if not state:
                 messagebox.showerror("Erro", "Erro: Não foi possíveo cadastrar horário")
@@ -197,10 +196,12 @@ def open_menu2():
 
     # Aqui será registrado o horário de fim de trabalho do funcionario
     def end_work(lista):
-        if id_entry.get() != "":
+        if id_entry.get() != "" and int(id_entry.get()) in lista.keys():
             state = lista.get(int(id_entry.get()))[0].end()
             if not state:
                 messagebox.showerror("Erro", "Erro: Não foi possíveo cadastrar horário")
+            else:
+                lista.save()
         else:
             messagebox.showerror("Erro", "Erro: Digitar um ID válido")
 
