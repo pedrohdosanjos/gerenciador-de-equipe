@@ -1,16 +1,23 @@
 from funcionario import *
 from func import *
-
+import os
 # Database to store elements based on their IDs
 class Database:
     def __init__(self, path: str="database.csv", overwrite=False):
         self.elements = {}
         self.databasePath = path
         if not overwrite:
-            self.load()
+            if os.path.isfile(self.databasePath):
+                self.load()
+            else:
+                open(self.databasePath, 'w').close()
     #
     def append(self, func):
         self.elements[func.id] = func
+        self.save()
+    #
+    def remove(self, id):
+        self.elements.pop(id)
         self.save()
     #
     def get(self, id):

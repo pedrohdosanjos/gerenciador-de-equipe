@@ -164,7 +164,9 @@ def open_menu1():
             return
         attr = el.getAttributes(all=True)
         
-        messagebox.askokcancel(title="Confirmar", message=f"Confirmar demissão de {attr[1]}")
+        confirmation = messagebox.askokcancel(title="Confirmar", message=f"Confirmar demissão de {attr[1]}")
+        if confirmation:
+            lista.remove(ID)
 
     boss_menu.createButton("Demitir funcionário", fire_empl, tabela_funcionarios, X-padding-0.015, Y+i*line_height, relative=True, anch="ne", color='red')
     i+=2
