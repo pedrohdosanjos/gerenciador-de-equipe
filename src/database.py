@@ -2,8 +2,12 @@ from funcionario import *
 from func import *
 import os
 # Database to store elements based on their IDs
+
+WORKINGDIR = os.path.dirname( os.path.abspath( __file__ ) )
+CSVPATH = os.path.join(WORKINGDIR, "database.csv")
+
 class Database:
-    def __init__(self, path: str="database.csv", overwrite=False):
+    def __init__(self, path: str=CSVPATH, overwrite=False):
         self.elements = {}
         self.databasePath = path
         if not overwrite:
@@ -46,7 +50,6 @@ class Database:
                 hrs = next(f, "")[:-1]
                 attributes = attr.split(',')
                 id, name, year, role, wage = attributes
-                print(attributes)
                 id = int(id)
                 year = int(year)
                 wage = float(wage)
@@ -75,7 +78,6 @@ class Database:
                     startDate = Data(start[2], start[1], start[0], start[3], start[4], start[5])
                     endDate = Data(end[2], end[1], end[0], end[3], end[4], end[5])
                     func.hours.append([startDate, endDate])
-                print(func.hours[0][0].getAttributes(), "\t", func.hours[0][1].getAttributes())
 
     
 
